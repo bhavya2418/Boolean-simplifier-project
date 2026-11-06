@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tabulation Method Dashboard - Boolean Simplifier</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div><h1>Boolean Simplifier <span class="chip">Tabulation Method</span></h1>
+  <p>Quine-McCluskey + Petrick's method &middot; computed live by the Python engine</p></div>
+  <div class="ctl">
+    <select id="preset"></select>
+  </div>
+</header>
+
+<section class="card inputs">
+  <label>Variables
+    <select id="nvars"><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select>
+  </label>
+  <label class="grow">Minterms &Sigma;m (comma separated)<input id="mt" value="0,1,2,5,6,7,8,9,10,14"></label>
+  <label class="grow">Don't cares d<input id="dc" value="4,15"></label>
+  <button id="go">Simplify</button>
+  <div id="err" class="err"></div>
+</section>
+
+<section class="kpis">
+  <div class="card result"><span class="lbl">Minimal SOP</span><div id="sop" class="mono big"></div>
+    <span id="ver" class="chip"></span></div>
+  <div class="card kpi"><span class="lbl">Literals</span><b id="kLit"></b><small id="kCanon"></small></div>
+  <div class="card kpi"><span class="lbl">Reduction</span><b id="kRed" class="green"></b></div>
+  <div class="card kpi"><span class="lbl">Prime implicants</span><b id="kPi"></b><small id="kEpi"></small></div>
+  <div class="card kpi"><span class="lbl">Gates</span><b id="kGate"></b><small>AND / OR</small></div>
+</section>
+
+<main>
+  <section class="card wide"><h2>Step 1 &middot; Tabulation (grouping &amp; merging)</h2>
+    <p class="hint">Terms are grouped by number of 1s. Adjacent groups that differ in one bit merge (<span class="mono">-</span> = eliminated variable). &#10003; = merged further; unticked = prime implicant.</p>
+    <div id="tab" class="cols"></div></section>
+
+  <section class="card wide"><h2>Step 2 &middot; Prime implicant chart</h2>
+    <p class="hint">&#9733; marks a minterm covered by only one PI, so that PI is essential. Don't cares have no column.</p>
+    <div class="scroll"><table id="chart"></table></div>
+    <div id="petrick" class="hint"></div></section>
+
+  <section class="card"><h2>Minterms vs. literals</h2><canvas id="bar" width="420" height="220"></canvas>
+    <div id="hist" class="hint"></div></section>
+
+  <section class="card"><h2>Truth table <small>(click a row to toggle 0 / 1 / X)</small></h2>
+    <div class="scroll tall"><table id="tt"></table></div></section>
+
+  <section class="card wide"><h2>Verilog output <button id="copy" class="mini">Copy</button></h2>
+    <pre id="v" class="mono"></pre></section>
+</main>
+<footer>Digital Circuit Design project &mdash; Boolean expression simplification using the tabulation method (Python).</footer>
+<script src="app.js"></script>
+</body></html>

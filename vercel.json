@@ -1,0 +1,4 @@
+{
+  "outputDirectory": "frontend",
+  "functions": { "api/simplify.py": { "includeFiles": "backend/**" } }
+}
